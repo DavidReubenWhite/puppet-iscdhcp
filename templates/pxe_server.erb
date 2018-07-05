@@ -1,0 +1,28 @@
+<%- if @match_criteria == 'arch' -%>
+next-server <%= @next_server %>;
+option architecture code 93 = unsigned integer 16;
+  <%- @arch_to_bootfile_map.each.with_index(1) do | arch_tuple, index | -%>
+    <%- if index == 1 -%>
+if option architecture = "<%= arch_tuple[0] %>" {
+  filename "<%= arch_tuple[1] %>";
+}
+    <%- elsif index == @arch_to_bootfile_map.size -%>
+      <%- if defined?(@default_bootfile) -%>
+elseif option architecture = "<%= arch_tuple[0] %>" {
+  filename "<%= arch_tuple[1] %>";
+}
+else {
+  filename "<%= @default_bootfile %>";
+}
+      <%-else-%>
+elseif option architecture = "<%= arch_tuple[0] %>" {
+  filename "<%= arch_tuple[1] %>";
+}
+      <%-end-%>
+    <%-else -%>
+elseif option architecture = "<%= arch_tuple[0] %>" {
+  filename "<%= arch_tuple[1] %>";
+}
+    <%-end-%>
+  <%-end-%>
+<%-end-%>

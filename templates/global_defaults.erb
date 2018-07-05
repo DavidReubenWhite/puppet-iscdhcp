@@ -1,0 +1,19 @@
+#globally scoped options/parameters/actions until first blank line
+<%- if @global_defaults.has_key?('authoritative') -%>
+    <%- if @global_defaults['parameters']['authoritative'] == true -%>
+authoritative;
+    <%- else -%>
+not authoritative;
+    <%-end-%>
+<%-end-%>
+<%- if @global_defaults.has_key?('options') -%>
+  <%- @global_defaults['options'].each do | option, value | -%>
+option <%= option %> <%= value %>;
+  <%-end-%>
+<%-end-%>
+<%- if @global_defaults.has_key?('parameters') -%>
+  <%- @global_defaults['parameters'].each do | parameter, value | -%>
+<%= parameter %> <%= value %>;
+  <%-end-%>
+<%-end-%>
+

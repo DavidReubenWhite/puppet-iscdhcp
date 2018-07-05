@@ -1,0 +1,5 @@
+---
+iscdhcp::server::v4::dhcp_dir: '/Users/davew/code/iscdhcp/dhcptest1'
+iscdhcp::server::v4::root_group: 'root'
+iscdhcp::server::v4::package_name: 'dhcp'
+iscdhcp::server::v4::service_name: 'dhcpd'

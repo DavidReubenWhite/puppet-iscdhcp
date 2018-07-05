@@ -1,0 +1,5 @@
+---
+iscdhcp::server::v4::dhcp_dir: '/etc/dhcp'
+iscdhcp::server::v4::root_group: 'root'
+iscdhcp::server::v4::package_name: 'isc-dhcp-server'
+iscdhcp::server::v4::service_name: 'isc-dhcp-server'

@@ -1,0 +1,12 @@
+failover peer "<%= @failover_name%>" {
+  <%=@role%>;
+  address <%=@listen_address%>;
+  port <%=@listen_port%>;
+  peer address <%=@peer_address%>;
+  peer port <%=@peer_port%>;
+  max-response-delay <%=@max_response_delay%>;
+  max-unacked-updates <%=@max_unacked_updates%>;
+  mclt <%=@mclt%>;
+  split <%=@split%>;
+  load balance max seconds <%=@load_balance_max_s%>;
+}

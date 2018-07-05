@@ -1,0 +1,15 @@
+ddns-update-style interim;
+# If you have fixed-address entries you want to use dynamic dns
+update-static-leases on;
+<%- @zone_keys.each do | k, v | -%>
+key <%= k %> {
+  algorithm <%- if v.has_key? "key_algorithm" -%><%= v['key_algorithm'] %><%- else -%><%= @default_algorithm %><%-end-%>;
+  secret <%= v['secret'] %>;
+}
+<%-end-%>
+<%- @zones.each do | k, v | -%>
+zone <%= k %> {
+  primary <%= v['primary'] %>;
+  key <%= v['key'] %>;
+}
+<%-end-%>
