@@ -27,8 +27,7 @@
             <%- if pool.has_key? "failover_peer" -%>
       failover_peer "<%= pool['failover_peer'] %>";
             <%-end-%>
-      range-start <%= pool['range_start'] %>;
-      range-end <%= pool['range_end'] %>;
+      range <%= pool['range_start'] %> <%= pool['range_end'] %>;
     }
           <%-end-%>
         <%-else-%>
@@ -87,8 +86,7 @@ subnet <%=@title.split('/')[0]%> netmask <%= IPAddr.new(@title).inspect.gsub(/.*
             <%- if pool.has_key? "failover_peer" -%>
     failover_peer "<%= pool['failover_peer'] %>";
             <%-end-%>
-    range-start <%= pool['range_start'] %>;
-    range-end <%= pool['range_end'] %>;
+    range <%= pool['range_start'] %> <%= pool['range_end'] %>;
   }
           <%-end-%>
         <%-else-%>
