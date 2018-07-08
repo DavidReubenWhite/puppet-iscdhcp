@@ -26,7 +26,7 @@ class iscdhcp::server::v4 (
   #pxe server params
   #puppet 4 doesn't have Stdlib:Fqdn
   #Optional[Variant[Stdlib::Fqdn, Stdlib::Ipv4]] $pxe_next_server = undef,
-  Optional[Stdlib::Compat::Ipv4]] $pxe_next_server = undef,
+  Optional[Stdlib::Compat::Ipv4] $pxe_next_server = undef,
   Optional[Enum['arch', 'vci']] $pxe_match_criteria = 'arch',
   Optional[Array[Tuple[String, String]]] $pxe_arch_to_bootfile_map = undef,
   Optional[Array[Tuple[String, String]]] $pxe_vci_to_bootfile_map = undef,
