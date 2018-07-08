@@ -4,7 +4,8 @@ describe 'iscdhcp::server::v4::failover' do
   on_supported_os.each do |os, os_facts|
     context "on #{os}" do
       let(:facts) { os_facts }
-      let(:node_params) do {
+      let(:node_params) do
+        {
 
           'iscdhcp::server::v4::dhcp_dir' => '/etc/dhcp',
           'iscdhcp::server::v4::failover_role' => 'primary',
@@ -19,34 +20,45 @@ describe 'iscdhcp::server::v4::failover' do
           'iscdhcp::server::v4::failover_split' => 128,
           'iscdhcp::server::v4::failover_load_balance_max_s' => 3,
           'iscdhcp::server::v4::config::failover_names' => ['testpeer.com'],
-      }
+        }
+      end
 
-      end
       it { is_expected.to compile }
-      it { is_expected
-        .to contain_file('/etc/dhcp/enabled_services/failover.conf')}
-      context "with different failover peer in pool and defined" do
+      it {
+        is_expected
+          .to contain_file('/etc/dhcp/enabled_services/failover.conf')
+      }
+      context 'with different failover peer in pool and defined' do
         let(:node_params) do
           super().merge(
-            'iscdhcp::server::v4::failover_name' => 'blah.com'
+            'iscdhcp::server::v4::failover_name' => 'blah.com',
           )
         end
-        it { is_expected.to compile.and_raise_error(%r{if failover enabled, failover_name must match name specified on subnet pool})}
+
+        it {
+          is_expected.to compile
+            .and_raise_error(%r{if failover enabled, failover_name must match name specified on subnet pool})
+        }
       end
-      context "with missing failover peer" do
+      context 'with missing failover peer' do
         let(:node_params) do
           super().merge(
-            'iscdhcp::server::v4::failover_name' => :undef
+            'iscdhcp::server::v4::failover_name' => :undef,
           )
         end
-        it { is_expected.to compile.and_raise_error(%r{if failover enabled, failover_name must be set})}
+
+        it {
+          is_expected.to compile
+            .and_raise_error(%r{if failover enabled, failover_name must be set})
+        }
       end
-      context "with empty failover_peers" do
+      context 'with empty failover_peers' do
         let(:node_params) do
           super().merge(
             'iscdhcp::server::v4::config::failover_names' => [],
           )
         end
+
         it { is_expected.to compile }
       end
     end

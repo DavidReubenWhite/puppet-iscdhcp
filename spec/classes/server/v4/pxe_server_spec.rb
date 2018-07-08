@@ -15,33 +15,43 @@ describe 'iscdhcp::server::v4::pxe_server' do
           'iscdhcp::server::v4::pxe_arch_to_bootfile_map' => [
             ['00:06', 'grub2/i386-efi/core.efi'],
             ['00:07', 'grub2/x86_64-efi/core.efi'],
-            ['00:09', 'grub2/x86_64-efi/core.efi']
+            ['00:09', 'grub2/x86_64-efi/core.efi'],
           ],
-          'iscdhcp::server::v4::pxe_vci_to_bootfile_map'  => [
+          'iscdhcp::server::v4::pxe_vci_to_bootfile_map' => [
             ['PXEClient:Arch:0000', 'i386-efi/core.efi'],
-            ['PXEClient:Arch:0007', 'x86_64-efi/core.efi']
+            ['PXEClient:Arch:0007', 'x86_64-efi/core.efi'],
           ],
         }
       end
+
       it { is_expected.to compile }
-      it {is_expected
-        .to contain_file('/etc/dhcp/enabled_services/pxe_server.conf')
+      it {
+        is_expected
+          .to contain_file('/etc/dhcp/enabled_services/pxe_server.conf')
       }
-      context "with missing pxe_next_server" do
+      context 'with missing pxe_next_server' do
         let(:node_params) do
           super().merge(
-            'iscdhcp::server::v4::pxe_next_server' => :undef
+            'iscdhcp::server::v4::pxe_next_server' => :undef,
           )
         end
-        it { is_expected.to compile.and_raise_error(%r{.*if pxe_server is enabled, pxe_next_server must be set.*})}
+
+        it {
+          is_expected.to compile
+            .and_raise_error(%r{.*if pxe_server is enabled, pxe_next_server must be set.*})
+        }
       end
-      context "with missing pxe_arch_to_bootfile_map" do
+      context 'with missing pxe_arch_to_bootfile_map' do
         let(:node_params) do
           super().merge(
-            'iscdhcp::server::v4::pxe_arch_to_bootfile_map' => :undef
+            'iscdhcp::server::v4::pxe_arch_to_bootfile_map' => :undef,
           )
         end
-        it { is_expected.to compile.and_raise_error(%r{.*if pxe_server is enabled, pxe_arch_to_bootfile_map must be set.*})}
+
+        it {
+          is_expected.to compile
+            .and_raise_error(%r{.*if pxe_server is enabled, pxe_arch_to_bootfile_map must be set.*})
+        }
       end
     end
   end

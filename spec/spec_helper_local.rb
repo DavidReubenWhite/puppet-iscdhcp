@@ -25,8 +25,9 @@ end
 RSpec.configure do |c|
   c.before(:each) do
     # Fake assert_private function from stdlib to not fail within test
-    Puppet::Parser::Functions.newfunction(:assert_private, :type => :rvalue) { |args|
-    }
+    Puppet::Parser::Functions
+      .newfunction(:assert_private, type: :rvalue) do |args|
+    end
   end
   c.default_facts = default_facts
   c.hiera_config = File.expand_path(File.join(File.dirname(__FILE__), '../hiera.yaml'))
@@ -36,14 +37,14 @@ shared_context 'base_params' do
   let(:node_params) do
     {
       'iscdhcp::server::v4::dhcp_dir' => '/etc/dhcp',
-      'iscdhcp::server::v4::subnets' => {
+      'iscdhcp::server::v4::subnets'  => {
         '192.168.0.0/24' => {
-          'authoritative'    => false,
+          'authoritative'  => false,
           'shared_network' => 'shared_network_1',
-          'parameters'       => {
+          'parameters'     => {
             'min-lease-time' => '900',
           },
-          'options'          => {
+          'options' => {
             'routers'        => '192.168.0.1',
           },
         },
@@ -56,14 +57,14 @@ shared_context 'base_params' do
                 'failover_peer' => 'blah.com',
                 'range_start'   => '192.168.1.20',
                 'range_end'     => '192.168.1.30',
-              }
-            ]
+              },
+            ],
           },
           'options'          => {
             'routers'        => '192.168.1.1',
           },
         },
-        '172.16.0.0/24'  => {
+        '172.16.0.0/24' => {
           'parameters' => {
             'min-lease-time' => '900',
             'max-lease-time' => '86400',
@@ -75,16 +76,16 @@ shared_context 'base_params' do
               },
               {
                 'failover_peer' => 'blah.com',
-                'range_start'   => '172.16.0.100',
-                'range_end'     => '172.16.0.150'
-              }
+                'range_start' => '172.16.0.100',
+                'range_end' => '172.16.0.150',
+              },
             ],
           },
-          'options'    => {
-            'routers'               => '172.16.0.1',
-            'domain-name-servers' => ['172.16.0.250', '172.16.0.251',],
+          'options' => {
+            'routers' => '172.16.0.1',
+            'domain-name-servers' => ['172.16.0.250', '172.16.0.251'],
           },
-          'hosts'      => {
+          'hosts' => {
             '172.16.0.50' => {
               'parameters' => {
                 'host-identifier' => {
@@ -94,7 +95,7 @@ shared_context 'base_params' do
                 'fixed-address'   => '172.16.0.50',
               },
             },
-            'grego'       => {
+            'grego' => {
               'parameters' => {
                 'host-identifier' => {
                   'option' => 'agent.remote-id',
@@ -103,16 +104,16 @@ shared_context 'base_params' do
                 'hardware'        => '44:44:44:44:44:44',
                 'fixed-address'   => '172.15.0.51',
               },
-              'options'    => {
+              'options' => {
                 'ddns-updates' => 'off',
-              }
-            }
+              },
+            },
           },
         },
         '192.168.2.7/32' => {
           # host subnet for dhcp proxy / relay
-          'authoritative'  => false,
-        }
+          'authoritative' => false,
+        },
       },
     }
   end

@@ -8,9 +8,12 @@ describe 'iscdhcp::server::v4::freeform_input' do
         { 'iscdhcp::server::v4::freeform_input' => '',
           'iscdhcp::server::v4::dhcp_dir' => '/etc/dhcp' }
       end
+
       it { is_expected.to compile }
-      it { is_expected
-        .to contain_file('/etc/dhcp/enabled_services/freeform_input.conf')}
+      it {
+        is_expected
+          .to contain_file('/etc/dhcp/enabled_services/freeform_input.conf')
+      }
     end
   end
 end
