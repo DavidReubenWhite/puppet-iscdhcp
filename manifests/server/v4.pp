@@ -24,7 +24,9 @@ class iscdhcp::server::v4 (
   #Optional[Hash] $shared_defaults = undef,
   Optional[Hash] $subnet_defaults = undef,
   #pxe server params
-  Optional[Variant[Stdlib::Fqdn, Stdlib::Ipv4]] $pxe_next_server = undef,
+  #puppet 4 doesn't have Stdlib:Fqdn
+  #Optional[Variant[Stdlib::Fqdn, Stdlib::Ipv4]] $pxe_next_server = undef,
+  Optional[Stdlib::Compat::Ipv4]] $pxe_next_server = undef,
   Optional[Enum['arch', 'vci']] $pxe_match_criteria = 'arch',
   Optional[Array[Tuple[String, String]]] $pxe_arch_to_bootfile_map = undef,
   Optional[Array[Tuple[String, String]]] $pxe_vci_to_bootfile_map = undef,
@@ -42,9 +44,11 @@ class iscdhcp::server::v4 (
   Optional[Enum['allow', 'ignore', 'deny']] $dns_client_updates = 'deny',
   # failover params
   Optional[String] $failover_name = undef,
-  Optional[Variant[Stdlib::Fqdn,
-                    Stdlib::Ipv4]] $failover_listen_address = undef,
-  Optional[Variant[Stdlib::Fqdn, Stdlib::Ipv4]] $failover_peer_address = undef,
+  #Optional[Variant[Stdlib::Fqdn,
+  #                  Stdlib::Ipv4]] $failover_listen_address = undef,
+  Optional[Stdlib::Compat::Ipv4] $failover_listen_address = undef,
+  #Optional[Variant[Stdlib::Fqdn, Stdlib::Ipv4]] $failover_peer_address = undef,
+  Optional[Stdlib::Compat::Ipv4] $failover_peer_address = undef,
   Optional[Enum['primary','secondary']] $failover_role = 'primary',
   Optional[Integer] $failover_listen_port = 519,
   Optional[Integer] $failover_peer_port = 520,
