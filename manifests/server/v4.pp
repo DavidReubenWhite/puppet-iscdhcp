@@ -70,9 +70,9 @@ class iscdhcp::server::v4 (
   }
 
   $subnets.each | $subnet, $data | {
-    unless $subnet =~ Stdlib::IP::Address::V4::CIDR {
-      fail("`subnet` is not a valid V4 CIDR: ${subnet}")
-    }
+    # unless $subnet =~ Stdlib::IP::Address::V4::CIDR {
+    #   fail("`subnet` is not a valid V4 CIDR: ${subnet}")
+    # }
     $data.each | $key, $value | {
       unless ($key in ['parameters',
                         'options',
