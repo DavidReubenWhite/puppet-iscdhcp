@@ -1,0 +1,48 @@
+<%- @filtered_parameters.each do |parameter, data| -%>
+  <%- if parameter == 'authoritative' -%>
+    <%- if parameter == true -%>
+<%= parameter %>;
+    <%-else-%>
+not <%= parameter %>;
+    <%-end-%>
+  <%-else-%>
+    <%- case data['data_type'] -%>
+      <%- when 'integer' -%>
+<%= data['formatted'] + ' ' + String(data['action']) + ';' %>
+      <%- when 'quoted_string' -%>
+<%= data['formatted'] + ' "' + data['action'] + '";' %>
+      <%- when 'string' -%>
+<%= data['formatted'] + " " + data['action'] + ';' %>
+      <%- when 'array' -%>
+<%= data['formatted'] -%>
+      <%- case data['array_data_type'] -%>
+        <%- when 'string' %> <%= data['action'].join(', ') + ';' %>
+        <%- when 'quoted_string' %> <%= '"' + data['action'].join(', ') + '";' %>
+      <%-end-%>
+      <%- when 'hash' -%>
+<%= data['formatted'] -%>
+      <%- (1..data['hash_keys']['length']).each do |n| -%>
+        <%- data['hash_keys'].each do |key, value| -%>
+          <%- if key != 'delimiter' and key != 'length' and value['order'] == n -%>
+            <%- if n == 1 -%>
+              <%- case value['data_type'] -%>
+                <%- when 'string' %> <%= data['action'][key] + data['hash_keys']['delimiter'] -%>
+                <%- when 'quoted_string' %> <%= '"' + data['action'][key] + '"' + data['hash_keys']['delimiter'] -%>
+              <%-end-%>
+            <%-elsif n != data['hash_keys']['length'] -%>
+              <%- case value['data_type'] -%>
+                <%- when 'string' %><%= data['action'][key] + data['hash_keys']['delimiter'] -%>
+                <%- when 'quoted_string' %><%= '"' + data['action'][key] + '"' + data['hash_keys']['delimiter'] -%>
+              <%-end-%>
+            <%-else-%>
+              <%- case value['data_type'] -%>
+                <%- when 'string' %><%= data['action'][key] + ';' %>
+                <%- when 'quoted_string' %><%= '"' + data['action'][key] + '";' %>
+              <%-end-%>
+            <%-end-%>
+          <%-end-%>
+        <%-end-%>
+      <%-end-%>
+    <%-end-%>
+  <%-end-%>
+<%-end-%>

@@ -1,0 +1,71 @@
+subnet6 <%=@title.split('/')[0]%>/<%=@title.split('/')[1]%> {
+  <%- if defined?(@authoritative) -%>
+    <%- if @authoritative == true -%>
+  authoritative;
+    <%- else -%>
+  not authoritative;
+    <%-end-%>
+  <%-end-%>
+  <%- if defined?(@actions) -%>
+    <%- @actions.each do | action, value | -%>
+      <%- value.each do | output | -%>
+  <%= action %> <%= output %>;
+      <%-end-%>
+    <%-end-%>
+  <%-end-%>
+  <%- if defined?(@options) -%>
+    <%- @options.each do | option, value | -%>
+      <%- if value.kind_of?(Array) -%>
+  option <%= option %> <%=value.join(', ')%>;
+      <%- elsif option == 'domain-name' -%>
+  option <%= option %> "<%= value %>";
+      <%- else -%>
+        <%-if value -%>
+  option <%= option %> <%= value %>;
+        <%-end-%>
+      <%-end-%>
+    <%-end-%>
+  <%-end-%>
+  <%- if defined?(@parameters) -%>
+    <%- @parameters.each do | parameter, value | -%>
+      <%- if value -%>
+        <%- if parameter == 'pools' -%>
+          <%- value.each do | pool | -%>
+  range6 <%= pool['range_start'] %> <%= pool['range_end'] %>;
+          <%-end-%>
+        <%-elsif parameter == 'pd' -%>
+  prefix6 <%= value['start'] %> <%= value['end'] %> /<%= value['mask'] %>;
+        <%- else -%>
+  <%= parameter %> <%= value %>;
+        <%-end-%>
+      <%-end-%>
+    <%-end-%>
+  <%-end-%>
+  <%- if defined?(@hosts) -%>
+    <%- @hosts.each do | host, value | -%>
+  host <%= host %> {
+      <%- if value.has_key? "actions" -%>
+        <%- value['actions'].each do | action, value | -%>
+          <%- value.each do | output | -%>
+    <%= action %> <%= output %>;
+          <%-end-%>
+        <%-end-%>
+      <%-end-%>
+      <%- if value.has_key? "parameters" -%>
+        <%- value['parameters'].each do | parameter, value | -%>
+          <%- if parameter == 'host-identifier' -%>
+    host-identifier option <%= value['option'] %> "<%= value['value'] %>";
+          <%-else-%>
+    <%= parameter %> <%= value %>;
+          <%-end-%>
+        <%-end-%>
+      <%-end-%>
+      <%- if value.has_key? "options" -%>
+        <%- value['options'].each do | option, value | -%>
+    <%= option %> <%= value %>;
+        <%-end-%>
+      <%-end-%>
+  }
+    <%-end-%>
+  <%-end-%>
+}

@@ -1,0 +1,16 @@
+  pool {
+  <%- if defined?(@filtered_permissions) -%>
+    <%- @filtered_permissions.each do |permission, data| -%>
+    <%= data['formatted'] %> <%= data['action'] %>;
+    <%-end-%>
+  <%-end-%>
+  <%- if defined?(@filtered_parameters) -%>
+<%= scope.call_function('template_regex', ['^', '    ', 'iscdhcp/server/v4/parameters.erb']) -%>
+  <%-end-%>
+  <%- if defined?(@filtered_options) -%>
+<%= scope.call_function('template_regex', ['^', '    ', 'iscdhcp/server/v4/options.erb']) -%>
+  <%-end-%>
+  <%- if defined?(@filtered_declarations) -%>
+<%= scope.call_function('template_regex', ['^', '    ', 'iscdhcp/server/v4/declarations.erb']) -%>
+  <%-end-%>
+  }
