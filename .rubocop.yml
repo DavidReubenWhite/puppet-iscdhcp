@@ -16,6 +16,7 @@ AllCops:
   - "**/Puppetfile"
   - "**/Vagrantfile"
   - "**/Guardfile"
+  - "lib/puppet/parser/functions/template_regex.rb"
 Metrics/LineLength:
   Description: People have wide screens, use them.
   Max: 200

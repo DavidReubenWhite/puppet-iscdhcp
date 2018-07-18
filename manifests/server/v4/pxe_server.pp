@@ -50,11 +50,11 @@ class iscdhcp::server::v4::pxe_server {
 
   # do fail checks etc
 
-  file { "${dhcp_dir}/enabled_services/pxe_server.conf":
+  file { "${dhcp_dir}/enabled_services/v4/pxe_server.conf":
     ensure  => present,
     #owner  => 'root',
     #group  => $root_group,
-    content => template('iscdhcp/pxe_server.erb'),
+    content => template('iscdhcp/server/v4/pxe_server.erb'),
     mode    => '0640',
   }
 }

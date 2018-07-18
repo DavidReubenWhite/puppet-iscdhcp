@@ -10,11 +10,11 @@ class iscdhcp::server::v4::config {
 
   $dhcp_dir = $iscdhcp::server::v4::dhcp_dir
   $root_group = $iscdhcp::server::v4::root_group
+  $service_name = $iscdhcp::server::v4::service_name
   $global_defaults = $iscdhcp::server::v4::global_defaults
   $subnet_defaults = $iscdhcp::server::v4::subnet_defaults
   $subnets = $iscdhcp::server::v4::subnets
   $enabled_services = $iscdhcp::server::v4::enabled_services
-  $service_name = $iscdhcp::server::v4::service_name
 
   assert_private()
 
@@ -28,30 +28,30 @@ class iscdhcp::server::v4::config {
   elsif length($failover_names) == 0 and ('failover' in $enabled_services) {
     fail('if failover enabled, must be declared per pool')
   }
-
   # file { '/usr/lib/systemd/system/dhcpd.service':
-  #   source => 'puppet:///modules/tpdhcp/dhcpd.service',
+  #   source => 'puppet:///modules/iscdhcp/dhcpd.service',
   #   owner  => 'root',
   #   group  => 'root',
   #   mode   => '0644',
   #   notify => Exec['systemctl-daemon-reload'],
   # }
-
   file {[
+          $dhcp_dir,
           "${dhcp_dir}/networks",
           "${dhcp_dir}/networks/v4",
           "${dhcp_dir}/enabled_services",
+          "${dhcp_dir}/enabled_services/v4",
         ]:
     ensure => 'directory',
-    purge  => true,
+    notify => Concat["${dhcp_dir}/dhcpd.conf"],
   }
   concat { "${dhcp_dir}/dhcpd.conf":
     ensure => present,
-    owner  => 'root',
+    #owner  => 'root',
     group  => $root_group,
     order  => 'numeric',
     mode   => '0640',
-    notify => Exec["test ${service_name} config"],
+    # notify => Exec["test ${service_name} config"],
   }
 
   # CONCAT ORDER
@@ -65,7 +65,7 @@ class iscdhcp::server::v4::config {
 
   concat::fragment { "${dhcp_dir}/dhcpd.conf_header":
     target  => "${dhcp_dir}/dhcpd.conf",
-    content => template('iscdhcp/header.erb'),
+    content => template('iscdhcp/server/v4/header.erb'),
     order   => 1,
   }
 
@@ -74,12 +74,12 @@ class iscdhcp::server::v4::config {
     # if it's the last enabled service to include - add an extra \n
     if ($index + 1) != length($enabled_services) {
       $content = {
-        'content' => "include \"${dhcp_dir}/enabled_services/${service}.conf\";\n"
+        'content' => "include \"${dhcp_dir}/enabled_services/v4/${service}.conf\";\n"
       }
     }
     else {
       $content = {
-        'content' => "include \"${dhcp_dir}/enabled_services/${service}.conf\";\n\n"
+        'content' => "include \"${dhcp_dir}/enabled_services/v4/${service}.conf\";\n\n"
       }
     }
     # put the index as the first dynamic part of fragment name to break tie for ordering
@@ -90,22 +90,25 @@ class iscdhcp::server::v4::config {
     }
   }
 
+  # Could have made this enabled service
   if $global_defaults {
-    concat::fragment { "${dhcp_dir}/dhcpd.conf_global_defaults":
+    class { 'iscdhcp::server::v4::global_defaults':
       target  => "${dhcp_dir}/dhcpd.conf",
-      content => template('iscdhcp/global_defaults.erb'),
+      replace => '',
       order   => 3,
+      *       => $global_defaults,
     }
   }
+
   # each shared network goes in its own file (including no shared network)
   $networks.each | $shared_network, $subnets | {
     concat { "${dhcp_dir}/networks/v4/${shared_network}.conf":
       ensure => present,
-      owner  => 'root',
+      #owner  => 'root',
       group  => $root_group,
       order  => 'numeric',
       mode   => '0640',
-      notify => Exec["test ${service_name} config"],
+      #notify => Exec["test ${service_name} config"],
     }
     # for each shared network we need the below extra statements to wrap around the subnets.
     if !($shared_network == '_private') {
@@ -117,7 +120,7 @@ class iscdhcp::server::v4::config {
       concat::fragment { "${shared_network}.conf_footer":
         target  => "${dhcp_dir}/networks/v4/${shared_network}.conf",
         content => "}\n",
-        order   => 3,
+        order   => 6,
       }
     }
     # to merge the subnet defaults in at the correct nesting level as the merge that create_resources does is only one level.

@@ -1,5 +1,5 @@
 ---
-iscdhcp::server::v4::dhcp_dir: '/etc'
-iscdhcp::server::v4::root_group: 'root'
-iscdhcp::server::v4::package_name: 'dhcp'
-iscdhcp::server::v4::service_name: 'dhcpd4'
+iscdhcp::server::dhcp_dir: /etc
+iscdhcp::server::root_group: root
+iscdhcp::server::package_name: dhcp
+iscdhcp::server::service_name: dhcpd4

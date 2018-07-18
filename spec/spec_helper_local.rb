@@ -37,82 +37,107 @@ shared_context 'base_params' do
   let(:node_params) do
     {
       'iscdhcp::server::v4::dhcp_dir' => '/etc/dhcp',
-      'iscdhcp::server::v4::subnets'  => {
+      'iscdhcp::server::v4::subnets' => {
         '192.168.0.0/24' => {
-          'authoritative'  => false,
-          'shared_network' => 'shared_network_1',
-          'parameters'     => {
-            'min-lease-time' => '900',
+          'parameters' => {
+            'authoritative'  => false,
+            'shared_network' => 'shared_network_1_v4',
+            'min_lease_time' => '900',
           },
           'options' => {
-            'routers'        => '192.168.0.1',
+            'routers' => ['192.168.0.1'],
           },
         },
         '192.168.1.0/24' => {
-          'shared_network' => 'shared_network_1',
-          'parameters'       => {
-            'min-lease-time' => '900',
-            'pools'          => [
+          'declarations' => {
+            'pools' => [
               {
-                'failover_peer' => 'blah.com',
-                'range_start'   => '192.168.1.20',
-                'range_end'     => '192.168.1.30',
+                'parameters' => {
+                  'failover_peer' => 'blah.com',
+                },
+                'declarations' => {
+                  'range' => {
+                    'start' => '192.168.1.20',
+                    'end' => '192.168.1.30',
+                  },
+                },
               },
             ],
           },
-          'options'          => {
-            'routers'        => '192.168.1.1',
+          'parameters' => {
+            'shared_network' => 'shared_network_1_v4',
+            'min-lease-time' => '900',
+          },
+          'options' => {
+            'routers' => ['192.168.1.1'],
           },
         },
         '172.16.0.0/24' => {
           'parameters' => {
-            'min-lease-time' => '900',
-            'max-lease-time' => '86400',
-            'pools'          => [
-              {
-                'failover_peer' => 'blah.com',
-                'range_start'   => '172.16.0.10',
-                'range_end'     => '172.16.0.50',
-              },
-              {
-                'failover_peer' => 'blah.com',
-                'range_start' => '172.16.0.100',
-                'range_end' => '172.16.0.150',
-              },
-            ],
+            'min_lease_time' => '900',
+            'max_lease_time' => '86400',
           },
           'options' => {
-            'routers' => '172.16.0.1',
-            'domain-name-servers' => ['172.16.0.250', '172.16.0.251'],
+            'routers' => ['172.16.0.1'],
+            'domain_name_servers' => ['172.16.0.250', '172.16.0.251'],
           },
-          'hosts' => {
-            '172.16.0.50' => {
-              'parameters' => {
-                'host-identifier' => {
-                  'option' => 'agent.remote-id',
-                  'value'  => 'REMOTEID12345679',
+          'declarations' => {
+            'pools' => [
+              {
+                'parameters' => {
+                  'failover_peer' => 'blah.com',
                 },
-                'fixed-address'   => '172.16.0.50',
-              },
-            },
-            'grego' => {
-              'parameters' => {
-                'host-identifier' => {
-                  'option' => 'agent.remote-id',
-                  'value'  => 'REMOTEID234567890',
+                'declarations' => {
+                  'range' => {
+                    'start'   => '172.16.0.10',
+                    'end'     => '172.16.0.50',
+                  },
                 },
-                'hardware'        => '44:44:44:44:44:44',
-                'fixed-address'   => '172.15.0.51',
               },
-              'options' => {
-                'ddns-updates' => 'off',
+              {
+                'parameters' => {
+                  'failover_peer' => 'blah.com',
+                },
+                'declarations' => {
+                  'range' => {
+                    'start' => '172.16.0.100',
+                    'end' => '172.16.0.150',
+                  },
+                },
+              },
+            ],
+            'hosts' => {
+              '172.16.0.50' => {
+                'parameters' => {
+                  'host_identifier' => {
+                    'option_name' => 'agent.remote-id',
+                    'option_data' => 'REMOTEID12345679',
+                  },
+                  'fixed_address' => ['172.16.0.50'],
+                },
+              },
+              'grego' => {
+                'parameters' => {
+                  'host_identifier' => {
+                    'option_name' => 'agent.remote-id',
+                    'option_data' => 'REMOTEID234567890',
+                  },
+                  'hardware' => {
+                    'option_name' => 'ethernet',
+                    'option_data' => '44:44:44:44:44:44',
+                  },
+                  'fixed_address' => ['172.15.0.51'],
+                  'ddns_updates' => 'off',
+                },
               },
             },
           },
         },
         '192.168.2.7/32' => {
           # host subnet for dhcp proxy / relay
-          'authoritative' => false,
+          'parameters' => {
+            'authoritative' => false,
+          },
         },
       },
     }

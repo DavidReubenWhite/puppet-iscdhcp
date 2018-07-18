@@ -8,7 +8,7 @@ class iscdhcp::server::v4::freeform_input {
   $input = $iscdhcp::server::v4::freeform_input
   $dhcp_dir = $iscdhcp::server::v4::dhcp_dir
 
-  file { "${dhcp_dir}/enabled_services/freeform_input.conf":
+  file { "${dhcp_dir}/enabled_services/v4/freeform_input.conf":
     ensure  => present,
     #owner  => 'root',
     #group  => $root_group,

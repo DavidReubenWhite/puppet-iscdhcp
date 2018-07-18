@@ -18,7 +18,7 @@ describe 'iscdhcp::server::v4::omapi_listener' do
       it { is_expected.to compile }
       it {
         is_expected
-          .to contain_file('/etc/dhcp/enabled_services/omapi_listener.conf')
+          .to contain_file('/etc/dhcp/enabled_services/v4/omapi_listener.conf')
       }
       context 'with omapi_key_name not set' do
         let(:node_params) do

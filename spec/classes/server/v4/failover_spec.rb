@@ -26,7 +26,7 @@ describe 'iscdhcp::server::v4::failover' do
       it { is_expected.to compile }
       it {
         is_expected
-          .to contain_file('/etc/dhcp/enabled_services/failover.conf')
+          .to contain_file('/etc/dhcp/enabled_services/v4/failover.conf')
       }
       context 'with different failover peer in pool and defined' do
         let(:node_params) do

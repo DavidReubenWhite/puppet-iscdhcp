@@ -12,7 +12,7 @@ describe 'iscdhcp::server::v4::freeform_input' do
       it { is_expected.to compile }
       it {
         is_expected
-          .to contain_file('/etc/dhcp/enabled_services/freeform_input.conf')
+          .to contain_file('/etc/dhcp/enabled_services/v4/freeform_input.conf')
       }
     end
   end

@@ -38,11 +38,11 @@ class iscdhcp::server::v4::dns_updater {
       }
     }
   }
-  file { "${dhcp_dir}/enabled_services/dns_updater.conf":
+  file { "${dhcp_dir}/enabled_services/v4/dns_updater.conf":
     ensure  => present,
     #owner  => 'root',
     #group  => $root_group,
-    content => template('iscdhcp/dns_updater.erb'),
+    content => template('iscdhcp/server/v4/dns_updater.erb'),
     mode    => '0640',
   }
 }

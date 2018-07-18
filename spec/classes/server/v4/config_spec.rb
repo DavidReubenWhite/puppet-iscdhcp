@@ -14,30 +14,28 @@ describe 'iscdhcp::server::v4::config' do
           'iscdhcp::server::v4::enabled_services' => [],
           'iscdhcp::server::v4::root_group' => 'root',
           'iscdhcp::server::v4::global_defaults' => {
-            'authoritative' => false,
             'parameters' => {
-              'ping-check'         => false,
-              'min-lease-time'     => '600',
-              'max-lease-time'     => '600',
-              'default-lease-time' => '600',
+              'authoritative'      => false,
+              'ping_check'         => false,
+              'min_lease_time'     => 600,
+              'max_lease_time'     => 600,
+              'default_lease_time' => 600,
             },
-            'actions' => {
-              'ignore' => ['client-updates'],
-              'allow'  => [],
-              'deny'   => [],
+            'permissions' => {
+              'client_updates' => 'allow',
             },
             'options' => {
-              'routers'     => '172.16.0.1',
-              'domain-name' => 'example.com',
+              'routers'     => ['172.16.0.1'],
+              'domain_name' => 'example.com',
             },
           },
           'iscdhcp::server::v4::subnet_defaults' => {
-            'authoritative' => true,
             'parameters' => {
-              'max-lease-time' => '28800',
+              'max_lease_time' => 28_800,
+              'authoritative' => true,
             },
             'options' => {
-              'domain-name-servers' => ['8.8.8.8', '4.4.4.4'],
+              'domain_name_servers' => ['8.8.8.8', '4.4.4.4'],
             },
           },
         )
@@ -45,16 +43,24 @@ describe 'iscdhcp::server::v4::config' do
 
       it { is_expected.to compile.with_all_deps }
       it {
+        is_expected.to contain_file('/etc/dhcp')
+          .with('ensure' => 'directory')
+      }
+      it {
         is_expected.to contain_file('/etc/dhcp/networks')
-          .with('ensure' => 'directory', 'purge' => true)
+          .with('ensure' => 'directory')
       }
       it {
         is_expected.to contain_file('/etc/dhcp/networks/v4')
-          .with('ensure' => 'directory', 'purge' => true)
+          .with('ensure' => 'directory')
       }
       it {
         is_expected.to contain_file('/etc/dhcp/enabled_services')
-          .with('ensure' => 'directory', 'purge' => true)
+          .with('ensure' => 'directory')
+      }
+      it {
+        is_expected.to contain_file('/etc/dhcp/enabled_services/v4')
+          .with('ensure' => 'directory')
       }
       it { is_expected.to contain_concat('/etc/dhcp/dhcpd.conf') }
 
@@ -66,26 +72,38 @@ describe 'iscdhcp::server::v4::config' do
         is_expected
           .to contain_concat__fragment('/etc/dhcp/dhcpd.conf_global_defaults')
       }
-      it {
-        is_expected
-          .to contain_concat__fragment('dhcpd.conf_shared_network_1')
-      }
+      # it {
+      #   is_expected
+      #     .to contain_concat__fragment('dhcpd.conf_shared_network_1')
+      # }
+      # it {
+      #   is_expected
+      #     .to contain_concat__fragment('dhcpd.conf_shared_network_2')
+      # }
       it {
         is_expected
           .to contain_concat__fragment('dhcpd.conf__private')
       }
-      it {
-        is_expected
-          .to contain_concat('/etc/dhcp/networks/v4/shared_network_1.conf')
-      }
-      it {
-        is_expected
-          .to contain_concat__fragment('shared_network_1.conf_header')
-      }
-      it {
-        is_expected
-          .to contain_concat__fragment('shared_network_1.conf_footer')
-      }
+      # it {
+      #   is_expected
+      #     .to contain_concat('/etc/dhcp/networks/v4/shared_network_1.conf')
+      # }
+      # it {
+      #   is_expected
+      #     .to contain_concat__fragment('shared_network_1.conf_header')
+      # }
+      # it {
+      #   is_expected
+      #     .to contain_concat__fragment('shared_network_1.conf_footer')
+      # }
+      # it {
+      #   is_expected
+      #     .to contain_concat__fragment('shared_network_2.conf_header')
+      # }
+      # it {
+      #   is_expected
+      #     .to contain_concat__fragment('shared_network_2.conf_footer')
+      # }
       it {
         is_expected
           .to contain_concat('/etc/dhcp/networks/v4/_private.conf')
@@ -108,42 +126,122 @@ describe 'iscdhcp::server::v4::config' do
       }
       it {
         is_expected
-          .to contain_concat__fragment('172.16.0.0/24_subnet')
+          .to contain_concat__fragment('172.16.0.0/24_template')
       }
       it {
         is_expected
-          .to contain_concat__fragment('192.168.0.0/24_subnet')
+          .to contain_concat__fragment('172.16.0.0/24_footer')
       }
       it {
         is_expected
-          .to contain_concat__fragment('192.168.1.0/24_subnet')
+          .to contain_concat__fragment('172.16.0.0/24_pool_0')
       }
       it {
         is_expected
-          .to contain_concat__fragment('192.168.2.7/32_subnet')
+          .to contain_concat__fragment('172.16.0.0/24_pool_1')
+      }
+      it {
+        is_expected
+          .to contain_concat__fragment('192.168.0.0/24_template')
+      }
+      it {
+        is_expected
+          .to contain_concat__fragment('192.168.0.0/24_footer')
+      }
+      it {
+        is_expected
+          .to contain_concat__fragment('192.168.1.0/24_template')
+      }
+      it {
+        is_expected
+          .to contain_concat__fragment('192.168.1.0/24_footer')
+      }
+      it {
+        is_expected
+          .to contain_concat__fragment('192.168.1.0/24_pool_0')
+      }
+      it {
+        is_expected
+          .to contain_concat__fragment('192.168.2.7/32_template')
+      }
+      it {
+        is_expected
+          .to contain_concat__fragment('192.168.2.7/32_footer')
+      }
+      it {
+        is_expected
+          .to contain_iscdhcp__server__v4__pool('172.16.0.0/24_pool_0')
+      }
+      it {
+        is_expected
+          .to contain_iscdhcp__server__v4__pool('172.16.0.0/24_pool_1')
+      }
+      it {
+        is_expected
+          .to contain_iscdhcp__server__v4__pool('192.168.1.0/24_pool_0')
+      }
+      it {
+        is_expected
+          .to contain_iscdhcp__server__host('172.16.0.50')
+      }
+      it {
+        is_expected
+          .to contain_iscdhcp__server__host('grego')
+      }
+      it {
+        is_expected
+          .to contain_class('Iscdhcp::Server::V4::Global_defaults')
+      }
+      it {
+        is_expected
+          .to contain_concat__fragment('host_172.16.0.50')
+      }
+      it {
+        is_expected
+          .to contain_concat__fragment('host_grego')
+      }
+      it {
+        is_expected
+          .to contain_exec('test dhcpd config')
+      }
+      it {
+        is_expected
+          .to contain_service('dhcpd')
       }
       context 'with multiple failover peers in subnets hash' do
         let(:node_params) do
           super().merge(
             'iscdhcp::server::v4::subnets' => {
               '172.28.0.0/24' => {
-                'parameters' => {
+                'declarations' => {
                   'pools' => [
                     {
-                      'failover_peer' => 'failover1.com',
-                      'range_start'   => '172.16.0.10',
-                      'range_end'     => '172.16.0.50',
+                      'parameters' => {
+                        'failover_peer' => 'failover1.com',
+                      },
+                      'declarations' => {
+                        'range' => {
+                          'start'   => '172.16.0.10',
+                          'end'     => '172.16.0.50',
+                        },
+                      },
                     },
                   ],
                 },
               },
               '172.29.0.0/24' => {
-                'parameters' => {
+                'declarations' => {
                   'pools' => [
                     {
-                      'failover_peer' => 'failover2.com',
-                      'range_start'   => '172.16.0.10',
-                      'range_end'     => '172.16.0.50',
+                      'parameters' => {
+                        'failover_peer' => 'failover2.com',
+                      },
+                      'declarations' => {
+                        'range' => {
+                          'start'   => '172.16.0.10',
+                          'end'     => '172.16.0.50',
+                        },
+                      },
                     },
                   ],
                 },

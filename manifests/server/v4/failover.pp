@@ -33,11 +33,11 @@ class iscdhcp::server::v4::failover {
     fail('if failover enabled, failover_name must match name specified on subnet pool')
   }
 
-  file { "${dhcp_dir}/enabled_services/failover.conf":
+  file { "${dhcp_dir}/enabled_services/v4/failover.conf":
     ensure  => present,
     #owner  => 'root',
     #group  => $root_group,
-    content => template('iscdhcp/failover.erb'),
+    content => template('iscdhcp/server/v4/failover.erb'),
     mode    => '0640',
   }
 }

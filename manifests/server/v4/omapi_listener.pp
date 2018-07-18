@@ -23,11 +23,11 @@ class iscdhcp::server::v4::omapi_listener {
   if $omapi_secret == undef or $omapi_secret == 'undef' {
     fail('if an omapi listener is enabled `omapi_secret` must be set')
   }
-  file { "${dhcp_dir}/enabled_services/omapi_listener.conf":
+  file { "${dhcp_dir}/enabled_services/v4/omapi_listener.conf":
     ensure  => present,
     #owner  => 'root',
     #group  => $root_group,
-    content => template('iscdhcp/omapi_listener.erb'),
+    content => template('iscdhcp/server/v4/omapi_listener.erb'),
     mode    => '0640',
   }
 }

@@ -1,2 +1,709 @@
 ---
-{}
+#if data type = array, array_data_type must be present.
+#if data type = hash, hash_keys must be present. Each key must have a data_type and order, hash_keys must have length and delimiter
+iscdhcp::server::options:
+  all_subnets_local:
+    data_type: boolean
+    formatted: all-subnets-local
+  arp_cache_timeout:
+    data_type: integer
+    formatted: arp-cache-timeout
+  associated_ip:
+    data_type: array
+    array_data_type: string
+    formatted: associated-ip
+  bcms_controller_address:
+    data_type: array
+    array_data_type: string
+    formatted: bcms-controller-address
+  bcms_controller_names:
+    data_type: array
+    array_data_type: string
+    formatted: bcms-controller-names
+  bootfile_name:
+    data_type: quoted_string
+    formatted: bootfile-name
+  boot_size:
+    data_type: integer
+    formatted: boot-size
+  broadcast_address:
+    data_type: string
+    formatted: broadcast-address
+  capwap-ac-v4:
+    data_type: array
+    array_data_type: string
+  client_last_transaction_time:
+    data_type: integer
+    formatted: client-last-transaction-time
+  cookie_servers:
+    data_type: array
+    array_data_type: string
+    formatted: cookie-servers
+  default_ip_ttl:
+    data_type: integer
+    formatted: default-ip-ttl
+  default_tcp_ttl:
+    data_type: integer
+    formatted: default-tcp-ttl
+  default_url:
+    data_type: quoted_string
+    formatted: default-url
+  dhcp_client_identifier:
+    data_type: quoted_string
+    formatted: dhcp-client-identifier
+  dhcp_max_message_size:
+    data_type: integer
+    formatted: dhcp-max-message-size
+  dhcp_option_overload:
+    data_type: integer
+    formatted: dhcp-option-overload
+  dhcp_parameter_request_list:
+    data_type: array
+    array_data_type: string
+    formatted: dhcp-parameter-request-list
+  dhcp_rebinding_time:
+    data_type: integer
+    formatted: dhcp-rebinding-time
+  dhcp_renewal_time:
+    data_type: integer
+    formatted: dhcp-renewal-time
+  dhcp_requested_address:
+    data_type: string
+    formatted: dhcp-requested-address
+  dhcp_server_identifier:
+    data_type: string
+    formatted: dhcp-server-identifier
+  domain_name:
+    data_type: quoted_string
+    formatted: domain-name
+  domain_name_servers:
+    data_type: array
+    array_data_type: string
+    formatted: domain-name-servers
+  domain_search:
+    data_type: array
+    array_data_type: quoted_string
+    formatted: domain-search
+  extensions_path:
+    data_type: quoted_string
+    formatted: extensions-path
+  finger_server:
+    data_type: array
+    array_data_type: string
+    formatted: finger-server
+  font_servers:
+    data_type: array
+    array_data_type: string
+    formatted: font-servers
+  geoconf_civic:
+    data_type: quoted_string
+    formatted: geoconf-civic
+  host_name:
+    data_type: quoted_string
+    formatted: host-name
+  ieee802_3_encapsulation:
+    data_type: boolean
+    formatted: ieee802-3-encapsulation
+  ien116_name_servers:
+    data_type: array
+    array_data_type: string
+    formatted: ien116-name-servers
+  impress_servers:
+    data_type: array
+    array_data_type: string
+    formatted: impress-servers
+  interface_mtu:
+    data_type: integer
+    formatted: interface-mtu
+  ip_forwarding:
+    data_type: boolean
+    formatted: ip-forwarding
+  irc_server:
+    data_type: array
+    array_data_type: string
+    formatted: irc-server
+  loader_configfile:
+    data_type: quoted_string
+    formatted: loader-configfile
+  loader_pathprefix:
+    data_type: quoted_string
+    formatted: loader-pathprefix
+  loader_reboottime:
+    data_type:
+    formatted: loader-reboottime
+  log_servers:
+    data_type: array
+    array_data_type: string
+    formatted: log-servers
+  lpr_servers:
+    data_type: array
+    array_data_type: string
+    formatted: lpr-servers
+  mask_supplier:
+    data_type: boolean
+    formatted: mask-supplier
+  max_dgram_reassembly:
+    data_type: integer
+    formatted: max-dgram-reassembly
+  merit_dump:
+    data_type: quoted_string
+    formatted: merit-dump
+  mobile_ip_home_agent:
+    data_type: array
+    array_data_type: string
+    formatted: mobile-ip-home-agent
+  name_service_search:
+    data_type: array
+    array_data_type: integer
+    formatted: name-service-search
+  nds_context:
+    data_type: quoted_string
+    formatted: nds-context
+  nds_servers:
+    data_type: array
+    array_data_type: string
+    formatted: nds-servers
+  nds_tree_name:
+    data_type: quoted_string
+    formatted: nds-tree-name
+  netbios_dd_server:
+    data_type: array
+    array_data_type: string
+    formatted: netbios-dd-server
+  netbios_name_servers:
+    data_type: array
+    array_data_type: string
+    formatted: netbios-name-servers
+  netbios_node_type:
+    data_type: integer
+    formatted: netbios-node-type
+  netbios_scope:
+    data_type: quoted_string
+    formatted: netbios-scope
+  netinfo_server_address:
+    data_type: array
+    array_data_type: string
+    formatted: netinfo-server-address
+  netinfo_server_tag:
+    data_type: quoted_string
+    formatted: netinfo-server-tag
+  nis_domain:
+    data_type: quoted_string
+    formatted: nis-domain
+  nis_servers:
+    data_type: array
+    array_data_type: string
+    formatted: nis-servers
+  nisplus_domain:
+    data_type: quoted_string
+    formatted: nisplus-domain
+  nisplus_servers:
+    data_type: array
+    array_data_type: string
+    formatted: nisplus-servers
+  nntp_server:
+    data_type: array
+    array_data_type: string
+    formatted: nntp-server
+  non_local_source_routing:
+    data_type: boolean
+    formatted: non-local-source-routing
+  ntp_servers:
+    data_type: array
+    array_data_type: string
+    formatted: ntp-servers
+  nwip_domain:
+    data_type: quoted_string
+    formatted: nwip-domain
+  nwip_suboptions:
+    data_type: quoted_string
+    formatted: nwip-suboptions
+  pxe_system_type:
+    data_type: array
+    array_data_type: integer
+    formatted: pxe-system-type
+  pana_agent:
+    data_type: array
+    array_data_type: string
+    formatted: pana-agent
+  path_mtu_aging_timeout:
+    data_type: integer
+    formatted: path-mtu-aging-timeout
+  path_mtu_plateau_table:
+    data_type: array
+    array_data_type: integer
+    formatted: path-mtu-plateau-table
+  pcode:
+    data_type: quoted_string
+    formatted: pcode
+  perform_mask_discovery:
+    data_type: boolean
+    formatted: perform-mask-discovery
+  pop_server:
+    data_type: array
+    array_data_type: string
+    formatted: pop-server
+  resource_location_servers:
+    data_type: array
+    array_data_type: string
+    formatted: resource-location-servers
+  root_path:
+    data_type: quoted_string
+    formatted: root-path
+  router_discovery:
+    data_type: boolean
+    formatted: router-discovery
+  router_solicitation_address:
+    data_type: string
+    formatted: router-solicitation-address
+  routers:
+    data_type: array
+    array_data_type: string
+    formatted: routers
+  smtp_server:
+    data_type: array
+    array_data_type: string
+    formatted: smtp-server
+  streettalk_directory_assistance_server:
+    data_type: array
+    array_data_type: string
+    formatted: streettalk-directory-assistance-server
+  streettalk_server:
+    data_type: array
+    array_data_type: string
+    formatted: streettalk-server
+  subnet_mask:
+    data_type: string
+    formatted: subnet-mask
+  subnet_selection:
+    data_type: string
+    formatted: subnet-selection
+  swap_server:
+    data_type: string
+    formatted: swap-server
+  tftp_server_address:
+    data_type: array
+    array_data_type: string
+    formatted: tftp-server-address
+  tcp_keepalive_garbage:
+    data_type: boolean
+    formatted: tcp-keepalive-garbage
+  tcp_keepalive_interval:
+    data_type: integer
+    formatted: tcp-keepalive-interval
+  tcode:
+    data_type: quoted_string
+    formatted: tcode
+  tftp_server_name:
+    data_type: quoted_string
+    formatted: tftp-server-name
+  time_offset:
+    data_type: integer
+    formatted: time-offset
+  time_servers:
+    data_type: array
+    array_data_type: string
+    formatted: time-servers
+  trailer_encapsulation:
+    data_type: boolean
+    formatted: trailer-encapsulation
+  uap_servers:
+    data_type: quoted_string
+    formatted: uap-servers
+  user_class:
+    data_type: quoted_string
+    formatted: user-class
+  v4_access_domain:
+    data_type: string
+    formatted:  v4-access-domain
+  v4_lost:
+    data_type: string
+    formatted: v4-lost
+  vendor_class_identifier:
+    data_type: quoted_string
+    formatted: vendor-class-identifier
+  vivso:
+    data_type: quoted_string
+    formatted: vivso
+  www_server:
+    data_type: array
+    array_data_type: string
+    formatted: www-server
+  x_display_manager:
+    data_type: array
+    array_data_type: string
+    formatted: x-display-manager
+
+iscdhcp::server::parameters:
+  abandon_lease_time:
+    data_type: integer
+    formatted: abandon-lease-time
+  adaptive_lease_time_threshold:
+    data_type: integer
+    formatted: adaptive-lease-time-threshold
+  always_broadcast:
+    data_type: boolean
+    formatted: always-broadcast
+  always_reply_rfc1048:
+    data_type: boolean
+    formatted: always-reply-rfc1048
+  authoritative:
+    data_type: boolean
+    formatted: authoritative
+  boot_unknown_clients:
+    data_type: boolean
+    formatted: boot-unknown-clients
+  check_secs_byte_order:
+    data_type: boolean
+    formatted: check-secs-byte-order
+  db_time_format:
+    data_type: string
+    formatted: db-time-format
+  ddns_hostname:
+    data_type: string
+    formatted: ddns-hostname
+  ddns_domainname:
+    data_type: string
+    formatted: ddns-domainname
+  ddns_dual_stack_mixed_mode:
+    data_type: boolean
+    formatted: ddns-dual-stack-mixed-mode
+  ddns_guard_id_must_match:
+    data_type: boolean
+    formatted: ddns-guard-id-must-match
+  ddns_local_address4:
+    data_type: string
+    formatted: ddns-local-address4
+  ddns_local_address6:
+    data_type: string
+    formatted: ddns-local-address6
+  ddns_other_guard_is_dynamic:
+    data_type: boolean
+    formatted: ddns-other-guard-is-dynamic
+  ddns_rev_domainname:
+    data_type: string
+    formatted: ddns-rev-domainname
+  ddns_update_style:
+    data_type: string
+    formatted: ddns-update-style
+  ddns_updates:
+    data_type: boolean
+    formatted: ddns-update-style
+  default_lease_time:
+    data_type: integer
+    formatted: default-lease-time
+  delayed_ack:
+    data_type: integer
+    formatted: delayed-ack
+  max_ack_delay:
+    data_type: integer
+    formatted: max-ack-delay
+  dhcp_cache_threshold:
+    data_type: integer
+    formatted: dhcp-cache-threshold
+  do_forward_updates:
+    data_type: boolean
+    formatted: do-forward-updates
+  dont_use_fsync:
+    data_type: boolean
+    formatted: dont-use-fsync
+  dynamic_bootp_lease_cutoff:
+    data_type: string
+    formatted: dynamic-bootp-lease-cutoff
+  dynamic_bootp_lease_length:
+    data_type: string
+    formatted: dynamic-bootp-lease-length
+  echo_client_id:
+    data_type: boolean
+    formatted: echo-client-id
+  failover_peer:
+    data_type: quoted_string
+    formatted: failover peer
+  filename:
+    data_type: quoted_string
+    formatted: filename
+  fixed_address:
+    data_type: array
+    array_data_type: string
+    formatted: fixed-address
+  fixed_address6:
+    data_type: array
+    array_data_type: string
+    formatted: fixed-address6
+  fixed_prefix6:
+    data_type: hash
+    hash_keys:
+      low_address:
+        data_type: string
+        order: 1
+      bits:
+        data_type: string
+        order: 2
+      delimiter: ' / '
+      length: 2
+    formatted: fixed-prefix6
+  get_lease_hostnames:
+    data_type: boolean
+    formatted: get-lease-hostnames
+    hardware:
+      data_type: hash
+      hash_keys:
+        option_name:
+          data_type: string
+          order: 1
+        option_data:
+          data_type: string
+          order: 2
+        delimiter: ' '
+        length: 2
+      formatted: hardware
+    host_identifier:
+      data_type: hash
+      hash_keys:
+        option_name:
+          data_type: string
+          order: 1
+        option_data:
+          data_type: quoted_string
+          order: 2
+        delimiter: ' '
+        length: 2
+      formatted: host-identifier option
+  host_identifier v6relopt:
+    data_type: hash
+    formatted: host-identifier v6relopt
+    hash_keys:
+      number:
+        data_type: string
+        order: 1
+      option_name:
+        data_type: string
+        order: 2
+      option_data:
+        data_type: string
+        order: 3
+      delimiter: ' '
+      length: 3
+  ignore_client_uids:
+    data_type: boolean
+    formatted: ignore-client-uids
+  infinite_is_reserved:
+    data_type: boolean
+    formatted: infinite-is-reserved
+  lease_file_name:
+    data_type: string
+    formatted: lease-file-name
+  dhcpv6_lease_file_name:
+    data_type: string
+    formatted: dhcpv6-lease-file-name
+  lease_id_format:
+    data_type: string
+    formatted: lease-id-format
+  limit_addrs_per_ia:
+    data_type: integer
+    formatted: limit-addrs-per-ia
+  local_port:
+    data_type: integer
+    formatted: local-port
+  local_address:
+    data_type: string
+    formatted: local-address
+  local_address6:
+    data_type: string
+    formatted: local-address6
+  bind_local_address6:
+    data_type: boolean
+    formatted: bind-local-address6
+  log_facility:
+    data_type: string
+    formatted: log-facility
+  log_threshold_high:
+    data_type: integer
+    formatted: log-threshold-high
+  log_threshold_low:
+    data_type: integer
+    formatted: log-threshold-low
+  max_lease_time:
+    data_type: integer
+    formatted: max-lease-time
+  min_lease_time:
+    data_type: integer
+    formatted: min-lease-time
+  min_secs:
+    data_type: integer
+    formatted: min-secs
+  next_server:
+    data_type: string
+    formatted: next-server
+  omapi_port:
+    data_type: integer
+    formatted: omapi-port
+  one_lease_per_client:
+    data_type: boolean
+    formatted: one-lease-per-client
+  persist_eui_64_leases:
+    data_type: boolean
+    formatted: persist-eui-64-leases
+  pid_file_name:
+    data_type: string
+    formatted: pid-file-name
+  dhcpv6_pid_file_name:
+    data_type: string
+    formatted: dhcpv6-pid-file-name
+  ping_check:
+    data_type: boolean
+    formatted: ping-check
+  ping_timeout:
+    data_type: integer
+    formatted: ping-timeout
+  preferred_lifetime:
+    data_type: integer
+    formatted: preferred-lifetime
+  prefix_length_mode:
+    data_type: string
+    formatted: prefix-length-mode
+  release_on_roam:
+    data_type: boolean
+    formatted: release-on-roam
+  remote_port:
+    data_type: integer
+    formatted: remote-port
+  server_identifier:
+    data_type: string
+    formatted: server-identifier
+  server_id_check:
+    data_type: boolean
+    formatted: server-id-check
+  server_name:
+    data_type: string
+    formatted: server-name
+  dhcpv6_set_tee_time:
+    data_type: boolean
+    formatted: dhcpv6-set-tee-time
+  site_option_space:
+    data_type: string
+    formatted: site-option-space
+  stash_agent_options:
+    data_type: boolean
+    formatted: stash-agent-options
+  update_conflict_detection:
+    data_type: boolean
+    formatted: update-conflict-detection
+  update_optimization:
+    data_type: boolean
+    formatted: update-optimization
+  update_static_leases:
+    data_type: boolean
+    formatted: update-static-leases
+  use_eui_64:
+    data_type: boolean
+    formatted: use-eui-64
+  use_host_decl_names:
+    data_type: boolean
+    formatted: use-host-decl-names
+  use_lease_addr_for_default_route:
+    data_type: boolean
+    formatted: use-lease-addr-for-default-route
+  vendor_option_space:
+    data_type: string
+    formatted: vendor-option-space
+
+# allow, ignore, deny
+iscdhcp::server::global_permissions:
+  unknown_clients:
+    formatted: unknown-clients
+    data_type: string
+  bootp:
+    formatted: bootp
+    data_type: string
+  booting:
+    formatted: booting
+    data_type: string
+  duplicates:
+    formatted: duplicates
+    data_type: string
+  declines:
+    formatted: declines
+    data_type: string
+  client_updates:
+    formatted: client-updates
+    data_type: string
+  leasequery:
+    formatted: leasequery
+    data_type: string
+
+# allow, deny
+iscdhcp::server::pool_permissions:
+  known_clients:
+    formatted: known-clients
+    data_type: string
+  unknown_clients:
+    formatted: unknown-clients
+    data_type: string
+  members_of:
+    formatted: members of
+    data_type: quoted_string
+  dynamic_bootp_clients:
+    formatted: dyanmic bootp clients
+    data_type: string
+  authenticated_clients:
+    formatted: authenticated clients
+    data_type: string
+  unauthenticated_clients:
+    formatted: unauthenticated clients
+    data_type: string
+  all_clients:
+    formatted: all clients
+    data_type: string
+  after:
+    formatted: after
+    data_type: string
+
+
+
+iscdhcp::server::declarations:
+  include:
+    formatted: include
+    data_type: string
+  shared_network:
+    formatted: shared-network
+    data_type: string
+  range:
+    formatted: range
+    data_type: hash
+    hash_keys:
+      start:
+        data_type: string
+        order: 1
+      end:
+        data_type: string
+        order: 2
+      delimiter: ' '
+      length: 2
+  range6:
+    formatted: range6
+    data_type: hash
+    hash_keys:
+      start:
+        data_type: string
+        order: 1
+      end:
+        data_type: string
+        order: 2
+      delimiter: ' '
+      length: 2
+  prefix6:
+    formatted: prefix6
+    data_type: hash
+    hash_keys:
+      start:
+        data_type: string
+        order: 1
+      end:
+        data_type: string
+        order: 2
+      bits:
+        data_type: string
+        order: 3
+      delimiter: ' '
+      length: 3

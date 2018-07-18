@@ -37,7 +37,7 @@ describe 'iscdhcp::server::v4::dns_updater' do
       it { is_expected.to compile }
       it {
         is_expected
-          .to contain_file('/etc/dhcp/enabled_services/dns_updater.conf')
+          .to contain_file('/etc/dhcp/enabled_services/v4/dns_updater.conf')
       }
       context 'with missing dns_zone "primary" key' do
         let(:node_params) do

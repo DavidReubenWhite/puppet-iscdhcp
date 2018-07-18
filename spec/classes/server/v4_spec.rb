@@ -47,101 +47,125 @@ describe 'iscdhcp::server::v4' do
           ['00:07', 'grub2/x86_64-efi/core.efi'],
           ['00:09', 'grub2/x86_64-efi/core.efi'],
         ],
-
       'global_defaults' => {
-        'authoritative' => false,
         'parameters' => {
-          'ping-check'         => false,
-          'min-lease-time'     => '600',
-          'max-lease-time'     => '600',
-          'default-lease-time' => '600',
+          'authoritative' => false,
+          'ping_check' => false,
+          'min_lease-time' => 600,
+          'max_lease-time' => 600,
+          'default_lease_time' => 600,
         },
-        'actions' => {
-          'ignore' => ['client-updates'],
-          'allow'  => [],
-          'deny'   => [],
+        'permissions' => {
+          'client_updates' => 'ignore',
         },
         'options' => {
-          'routers'     => '172.16.0.1',
-          'domain-name' => 'example.com',
+          'routers' => ['172.16.0.1'],
+          'domain_name' => 'example.com',
         },
       },
       'subnets' => {
         '192.168.0.0/24' => {
-          'authoritative' => false,
-          'shared_network' => 'shared_network_1',
+          'declarations' => {
+            'shared_network' => 'shared_network_1',
+          },
           'parameters' => {
-            'min-lease-time' => '900',
+            'authoritative'  => false,
+            'min_lease_time' => 900,
           },
           'options' => {
-            'routers'        => '192.168.0.1',
+            'routers'        => ['192.168.0.1'],
           },
         },
         '192.168.1.0/24' => {
-          'shared_network' => 'shared_network_1',
+          'declarations' => {
+            'shared_network' => 'shared_network_1',
+          },
           'parameters'       => {
-            'min-lease-time' => '900',
+            'min_lease_time' => 900,
             'pools'          => [
               {
-                'failover_name' => 'blah.com',
-                'range_start'   => '192.168.1.20',
-                'range_end'     => '192.168.1.30',
+                'parameters' => {
+                  'failover_name' => 'blah.com',
+                },
+                'declarations' => {
+                  'start' => '192.168.1.20',
+                  'end'   => '192.168.1.30',
+                },
               },
             ],
           },
           'options'          => {
-            'routers'        => '192.168.1.1',
+            'routers'        => ['192.168.1.1'],
           },
         },
         '172.16.0.0/24' => {
           'parameters' => {
-            'min-lease-time' => '900',
-            'max-lease-time' => '86400',
+            'min_lease_time' => 900,
+            'max_lease_time' => 86_400,
             'pools'          => [
               {
-                'failover_name' => 'blah.com',
-                'range_start'   => '172.16.0.10',
-                'range_end'     => '172.16.0.50',
+                'parameters' => {
+                  'failover_name' => 'blah.com',
+                },
+                'declarations' => {
+                  'range' => {
+                    'range_start' => '172.16.0.10',
+                    'range_end'   => '172.16.0.50',
+                  },
+                },
               },
               {
-                'failover_name' => 'blah.com',
-                'range_start'   => '172.16.0.100',
-                'range_end'     => '172.16.0.150',
+                'parameters' => {
+                  'failover_name' => 'blah.com',
+                },
+                'declarations' => {
+                  'range' => {
+                    'range_start'   => '172.16.0.100',
+                    'range_end'     => '172.16.0.150',
+                  },
+                },
               },
             ],
           },
           'options' => {
-            'routers' => '172.16.0.1',
-            'domain-name-servers' => ['172.16.0.250', '172.16.0.251'],
+            'routers' => ['172.16.0.1'],
+            'domain_name_servers' => ['172.16.0.250', '172.16.0.251'],
           },
-          'hosts' => {
-            '172.16.0.50' => {
-              'parameters' => {
-                'host-identifier' => {
-                  'option' => 'agent.remote-id',
-                  'value'  => 'REMOTEID12345679',
+          'declarations' => {
+            'hosts' => {
+              '172.16.0.50' => {
+                'parameters' => {
+                  'host_identifier' => {
+                    'option_name' => 'agent.remote-id',
+                    'option_data' => 'REMOTEID12345679',
+                  },
+                  'fixed_address'   => ['172.16.0.50'],
                 },
-                'fixed-address'   => '172.16.0.50',
               },
-            },
-            'grego' => {
-              'parameters' => {
-                'host-identifier' => {
-                  'option' => 'agent.remote-id',
-                  'value'  => 'REMOTEID234567890',
+              'grego' => {
+                'parameters' => {
+                  'host_identifier' => {
+                    'option_name' => 'agent.remote-id',
+                    'option_data' => 'REMOTEID234567890',
+                  },
+                  'hardware' => {
+                    'option_name' => 'ethernet',
+                    'option_data' => '44:44:44:44:44:44',
+                  },
+                  'fixed-address' => ['172.15.0.51'],
                 },
-                'hardware' => '44:44:44:44:44:44',
-                'fixed-address' => '172.15.0.51',
-              },
-              'options' => {
-                'ddns-updates' => 'off',
+                'options' => {
+                  'ddns_updates' => 'off',
+                },
               },
             },
           },
         },
         '192.168.2.7/32' => {
           # host subnet for dhcp proxy / relay
-          'authoritative' => false,
+          'parameters' => {
+            'authoritative' => false,
+          },
         },
       },
     }
@@ -152,16 +176,33 @@ describe 'iscdhcp::server::v4' do
       let(:facts) { os_facts }
 
       it { is_expected.to compile }
-      it { is_expected.to contain_class('iscdhcp::server::v4::install') }
+      it { is_expected.to contain_class('iscdhcp::server::install') }
       it {
         is_expected.to contain_class('iscdhcp::server::v4::config')
-          .that_requires('Class[iscdhcp::server::v4::install]')
+          .that_requires('Class[iscdhcp::server::install]')
       }
       it {
         is_expected.to contain_class('iscdhcp::server::v4::config')
           .that_notifies('Class[iscdhcp::server::v4::service]')
       }
       it { is_expected.to contain_class('iscdhcp::server::v4::service') }
+      # not sure why these have to be here but they fail if they are under the config spec.
+      it {
+        is_expected
+          .to contain_concat__fragment('dhcpd.conf_shared_network_1')
+      }
+      it {
+        is_expected
+          .to contain_concat__fragment('shared_network_1.conf_footer')
+      }
+      it {
+        is_expected
+          .to contain_concat__fragment('shared_network_1.conf_header')
+      }
+      it {
+        is_expected
+          .to contain_concat('/etc/dhcp/networks/v4/shared_network_1.conf')
+      }
       # nested context below
       context 'with no subnets hash' do
         let(:params) do
@@ -223,17 +264,22 @@ describe 'iscdhcp::server::v4' do
             .and_raise_error(%r{.*unsupported subnet key used.*})
         }
       end
-      context 'unsupported os type (no dhcp_dir)' do
-        let(:params) do
-          # params take presidence over hiera. Can't actually remove the hiera value of dhcp_dir so we set it to empty.
-          super().merge('dhcp_dir' => '')
-        end
+      # context 'unsupported os type (no dhcp_dir)' do
+      #   let(:node_params) do
+      #     # params take presidence over hiera. Can't actually remove the
+      # hiera value of dhcp_dir so we set it to empty. This applied when it
+      # was a parameter. No longer applies now that we are using a lookup.
+      # Need to figure this out, until then, commenting out.
+      #     {
+      #       'iscdhcp::server::dhcp_dir' => '',
+      #     }
+      #   end
 
-        it {
-          is_expected.to compile
-            .and_raise_error(%r{.*unsupported os.*})
-        }
-      end
+      #   it {
+      #     is_expected.to compile
+      #       .and_raise_error(%r{.*unsupported os.*})
+      #   }
+      # end
       context 'with incorrect enabled services' do
         let(:params) do
           super().merge(

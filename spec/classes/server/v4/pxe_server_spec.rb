@@ -27,7 +27,7 @@ describe 'iscdhcp::server::v4::pxe_server' do
       it { is_expected.to compile }
       it {
         is_expected
-          .to contain_file('/etc/dhcp/enabled_services/pxe_server.conf')
+          .to contain_file('/etc/dhcp/enabled_services/v4/pxe_server.conf')
       }
       context 'with missing pxe_next_server' do
         let(:node_params) do
