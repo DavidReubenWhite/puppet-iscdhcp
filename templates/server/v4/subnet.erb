@@ -5,11 +5,14 @@ subnet <%=@title.split('/')[0]%> netmask <%= IPAddr.new(@title).inspect.gsub(/.*
   <%-end-%>
 <%-end-%>
 <%- if defined?(@filtered_parameters) -%>
-<%= scope.call_function('template_regex', ['^', '  ', 'iscdhcp/server/v4/parameters.erb']) -%>
+  <%- @_temp_params = scope.call_function('template', ['iscdhcp/server/v4/parameters.erb']) -%>
+<%= scope.call_function('regsubst', [@_temp_params, '^', '  ', 'GM']) -%>
 <%-end-%>
 <%- if defined?(@filtered_options) -%>
-<%= scope.call_function('template_regex', ['^', '  ', 'iscdhcp/server/v4/options.erb']) -%>
+  <%- @_temp_opts = scope.call_function('template', ['iscdhcp/server/v4/options.erb']) -%>
+<%= scope.call_function('regsubst', [@_temp_opts, '^', '  ', 'GM']) -%>
 <%-end-%>
 <%- if defined?(@filtered_declarations) -%>
-<%= scope.call_function('template_regex', ['^', '  ', 'iscdhcp/server/v4/declarations.erb']) -%>
+  <%- @_temp_decs = scope.call_function('template', ['iscdhcp/server/v4/declarations.erb']) -%>
+<%= scope.call_function('regsubst', [@_temp_decs, '^', '  ', 'GM']) -%>
 <%-end-%>

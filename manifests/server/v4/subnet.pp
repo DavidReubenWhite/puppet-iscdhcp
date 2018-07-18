@@ -16,9 +16,9 @@ define iscdhcp::server::v4::subnet (
 
   assert_private()
 
-  $global_permissions = lookup('iscdhcp::server::global_permissions')
   $global_parameters = lookup('iscdhcp::server::parameters')
   $global_options = lookup('iscdhcp::server::options')
+  $global_permissions = lookup('iscdhcp::server::global_permissions')
 
   # figure out how to enable this without breaking rspec-puppet without including base class
 
@@ -27,7 +27,7 @@ define iscdhcp::server::v4::subnet (
   # }
 
   # In case shared_network key is explicitly set to an emtpy string
-  if ( $declarations and has_key($declarations, 'shared_network')
+  if ($declarations and has_key($declarations, 'shared_network')
     and !empty($declarations['shared_network'])) {
       $shared_network = $declarations['shared_network']
   }
@@ -46,26 +46,35 @@ define iscdhcp::server::v4::subnet (
     default => "  }\n",
     undef => "}\n"
   }
-  # $content = inline_template("
-  # <%- require 'json' -%>
-  # <%= JSON.pretty_generate(@declarations['pools'][0]) %>
-  # ")
 
-
-  # notify{ $content :
-  #   loglevel => notice,
-  #   }
-
-  if $permissions {
-    $filtered_permissions = iscdhcp::setup_data_structure($permissions, $global_permissions)
-  }
+  # validate inputs and merge into globals here
   if $parameters {
+    $parameters.each |$param, $value| {
+      if !has_key($global_parameters, $param) {
+        fail("specified parameter: `${param}` is not in data schema, you will \
+need to add this to `iscdhcp::server::parameters` hash")
+      }
+    }
     $filtered_parameters = iscdhcp::setup_data_structure($parameters, $global_parameters)
   }
   if $options {
+    $options.each |$opt, $value| {
+      if !has_key($global_options, $opt) {
+        fail("specified option: `${opt}` is not in data schema, you will need \
+to add this to `iscdhcp::server::options` hash")
+      }
+    }
     $filtered_options = iscdhcp::setup_data_structure($options, $global_options)
   }
-
+  if $permissions {
+    $permissions.each |$perm, $value| {
+      if !has_key($global_permissions, $perm) {
+        fail("specified permission: `${perm}` is not in data schema, you will \
+need to add this to `iscdhcp::server::permissions` hash")
+      }
+    }
+    $filtered_permissions = iscdhcp::setup_data_structure($permissions, $global_permissions)
+  }
   if $declarations {
     if has_key($declarations, 'pools') {
       $declarations['pools'].each |$index, $data| {
@@ -88,9 +97,12 @@ define iscdhcp::server::v4::subnet (
       }
     }
   }
+
+  $content = template('iscdhcp/server/v4/subnet.erb').regsubst('^', $replace, 'GM')
+
   concat::fragment { "${title}_template":
     target  => $target,
-    content => template_regex('^', $replace, 'iscdhcp/server/v4/subnet.erb'),
+    content => $content,
     order   => 2,
   }
   concat::fragment { "${title}_footer":

@@ -445,30 +445,30 @@ iscdhcp::server::parameters:
   get_lease_hostnames:
     data_type: boolean
     formatted: get-lease-hostnames
-    hardware:
-      data_type: hash
-      hash_keys:
-        option_name:
-          data_type: string
-          order: 1
-        option_data:
-          data_type: string
-          order: 2
-        delimiter: ' '
-        length: 2
-      formatted: hardware
-    host_identifier:
-      data_type: hash
-      hash_keys:
-        option_name:
-          data_type: string
-          order: 1
-        option_data:
-          data_type: quoted_string
-          order: 2
-        delimiter: ' '
-        length: 2
-      formatted: host-identifier option
+  hardware:
+    data_type: hash
+    hash_keys:
+      option_name:
+        data_type: string
+        order: 1
+      option_data:
+        data_type: string
+        order: 2
+      delimiter: ' '
+      length: 2
+    formatted: hardware
+  host_identifier:
+    data_type: hash
+    hash_keys:
+      option_name:
+        data_type: string
+        order: 1
+      option_data:
+        data_type: quoted_string
+        order: 2
+      delimiter: ' '
+      length: 2
+    formatted: host-identifier option
   host_identifier v6relopt:
     data_type: hash
     formatted: host-identifier v6relopt

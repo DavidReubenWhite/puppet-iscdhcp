@@ -45,7 +45,7 @@ class iscdhcp::server::v4::global_defaults (
 
   concat::fragment { "${dhcp_dir}/dhcpd.conf_global_defaults":
     target  => $target,
-    content => template_regex('^', '', 'iscdhcp/server/v4/global_defaults.erb'),
+    content => template('iscdhcp/server/v4/global_defaults.erb'),
     order   => $order,
   }
 

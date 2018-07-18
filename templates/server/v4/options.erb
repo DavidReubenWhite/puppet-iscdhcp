@@ -1,5 +1,7 @@
 <%- @filtered_options.each do |option, data| -%>
   <%- case data['data_type'] -%>
+    <%- when 'integer' -%>
+option <%= data['formatted'] + ' ' + String(data['action']) + ';' %>
     <%- when 'quoted_string' -%>
 option <%= data['formatted'] + ' "' + data['action'] + '";' %>
     <%- when 'string' -%>
@@ -18,16 +20,19 @@ option <%= data['formatted'] -%>
           <%- if n == 1 -%>
             <%- case value['data_type'] -%>
               <%- when 'string' %> <%= data['action'][key] + data['hash_keys']['delimiter'] -%>
+              <%- when 'integer' %> <%= String(data['action'][key]) + data['hash_keys']['delimiter'] -%>
               <%- when 'quoted_string' %> <%= '"' + data['action'][key] + '"' + data['hash_keys']['delimiter'] -%>
             <%-end-%>
           <%-elsif n != data['hash_keys']['length'] -%>
             <%- case value['data_type'] -%>
               <%- when 'string' %><%= data['action'][key] + data['hash_keys']['delimiter'] -%>
+              <%- when 'integer' %> <%= String(data['action'][key]) + data['hash_keys']['delimiter'] -%>
               <%- when 'quoted_string' %><%= '"' + data['action'][key] + '"' + data['hash_keys']['delimiter'] -%>
             <%-end-%>
           <%-else-%>
             <%- case value['data_type'] -%>
               <%- when 'string' %><%= data['action'][key] + ';' %>
+              <%- when 'integer' %> <%= String(data['action'][key]) + ';' %>
               <%- when 'quoted_string' %><%= '"' + data['action'][key] + '";' %>
             <%-end-%>
           <%-end-%>
