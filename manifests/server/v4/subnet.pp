@@ -49,12 +49,12 @@ define iscdhcp::server::v4::subnet (
 
   # validate inputs and merge into globals here
   if $parameters {
-    $parameters.each |$param, $value| {
-      if !has_key($global_parameters, $param) {
-        fail("specified parameter: `${param}` is not in data schema, you will \
-need to add this to `iscdhcp::server::parameters` hash")
-      }
-    }
+#     $parameters.each |$param, $value| {
+#       if !has_key($global_parameters, $param) {
+#         fail("specified parameter: `${param}` is not in data schema, you will \
+# need to add this to `iscdhcp::server::parameters` hash")
+#       }
+#     }
     $filtered_parameters = iscdhcp::setup_data_structure($parameters, $global_parameters)
   }
   if $options {

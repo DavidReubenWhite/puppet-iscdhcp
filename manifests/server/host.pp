@@ -22,21 +22,21 @@ define iscdhcp::server::host(
 
 
   if $parameters {
-    $parameters.each |$param, $value| {
-      if !has_key($global_parameters, $param) {
-        fail("specified parameter: `${param}` is not in data schema, you will \
-need to add this to `iscdhcp::server::parameters` hash")
-      }
-    }
+#     $parameters.each |$param, $value| {
+#       if !has_key($global_parameters, $param) {
+#         fail("specified parameter: `${param}` is not in data schema, you will \
+# need to add this to `iscdhcp::server::parameters` hash")
+#       }
+#     }
     $filtered_parameters = iscdhcp::setup_data_structure($parameters, $global_parameters)
   }
   if $options {
-    $options.each |$opt, $value| {
-      if !has_key($global_options, $opt) {
-        fail("specified option: `${opt}` is not in data schema, you will need \
-to add this to `iscdhcp::server::options` hash")
-      }
-    }
+#     $options.each |$opt, $value| {
+#       if !has_key($global_options, $opt) {
+#         fail("specified option: `${opt}` is not in data schema, you will need \
+# to add this to `iscdhcp::server::options` hash")
+#       }
+#     }
     $filtered_options = iscdhcp::setup_data_structure($options, $global_options)
   }
   if $permissions {
